@@ -22,12 +22,12 @@ function Inputs({
       switch (key) {
         case "magnitude":
           setVoltageValue((prev) => {
-            return { ...prev, magnitude: value ? `${parseFloat(value)}` : "0" };
+            return { ...prev, magnitude: value ? value : "0" };
           });
           break;
         default:
           setVoltageValue((prev) => {
-            return { ...prev, phase: value ? `${parseFloat(value)}` : "0" };
+            return { ...prev, phase: value ? value : "0" };
           });
           break;
       }
@@ -38,12 +38,12 @@ function Inputs({
       switch (key) {
         case "magnitude":
           setImpedanceLoadValue((prev) => {
-            return { ...prev, magnitude: value ? `${parseFloat(value)}` : "0" };
+            return { ...prev, magnitude: value ? value : "0" };
           });
           break;
         default:
           setImpedanceLoadValue((prev) => {
-            return { ...prev, phase: value ? `${parseFloat(value)}` : "0" };
+            return { ...prev, phase: value ? value : "0" };
           });
           break;
       }
@@ -54,12 +54,12 @@ function Inputs({
       switch (key) {
         case "magnitude":
           setImpedanceTRValue((prev) => {
-            return { ...prev, magnitude: value ? `${parseFloat(value)}` : "0" };
+            return { ...prev, magnitude: value ? value : "0" };
           });
           break;
         default:
           setImpedanceTRValue((prev) => {
-            return { ...prev, phase: value ? `${parseFloat(value)}` : "0" };
+            return { ...prev, phase: value ? value : "0" };
           });
           break;
       }
