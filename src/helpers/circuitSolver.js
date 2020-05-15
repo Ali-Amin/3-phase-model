@@ -221,6 +221,16 @@ export function deltaStar({
     magnitude2: phasorZeq.magnitude,
     phase2: phasorZeq.phase,
   });
+  const phasorLoad = convertComplex.cartesianToPhasor({
+    real: realZL,
+    imaginary: imagZL
+  });
+  const loadPhaseVoltage = complexOperations.multiplicationPhasor({
+    magnitude1: lineCurrent.magnitude,
+    phase1: lineCurrent.phase,
+    magnitude2: phasorLoad.magnitude,
+    phase2: phasorLoad.phase,
+  });
   const singlePhaseLoadActivePower =
     Math.pow(lineCurrent.magnitude, 2) * realZL;
   const singlePhaseLoadReactivePower =
@@ -249,13 +259,14 @@ export function deltaStar({
     source: {
       phaseVoltage: phaseVoltage,
       lineCurrent: lineCurrent,
-      phaseCurrent: null,
+      phaseCurrent: lineCurrent,
       singlePhaseApparentPower: singlePhaseApparentPower,
       threePhaseApparentPower: threePhaseApparentPower,
     },
     load: {
       lineCurrent: lineCurrent,
-      phaseCurrent: null,
+      phaseCurrent: lineCurrent,
+      loadPhaseVoltage: loadPhaseVoltage,
       singlePhaseApparentPower: singlePhaseLoadApparentPower,
       threePhaseApparentPower: threePhaseLoadApparentPower,
     },
