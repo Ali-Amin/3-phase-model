@@ -70,13 +70,13 @@ export function deltaStar({
     source: {
       phaseVoltage: phaseVoltage,
       lineCurrent: lineCurrent,
-      phaseCurrent: null,
+      phaseCurrent: lineCurrent,
       singlePhaseApparentPower: singlePhaseApparentPower,
       threePhaseApparentPower: threePhaseApparentPower,
     },
     load: {
       lineCurrent: lineCurrent,
-      phaseCurrent: null,
+      phaseCurrent: lineCurrent,
       loadPhaseVoltage: loadPhaseVoltage,
       singlePhaseApparentPower: singlePhaseLoadApparentPower,
       threePhaseApparentPower: threePhaseLoadApparentPower,
