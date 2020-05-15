@@ -16,7 +16,7 @@ function Inputs({
   const [vType, setVType] = useState("line");
 
   function onChangeVoltage(value, key) {
-    if (parseInt(value) == value) {
+    if (parseFloat(value) == value) {
       switch (key) {
         case "magnitude":
           setVoltageValue((prev) => {
@@ -32,7 +32,7 @@ function Inputs({
     }
   }
   function onChangeLoad(value, key) {
-    if (parseInt(value) == value) {
+    if (parseFloat(value) == value) {
       switch (key) {
         case "magnitude":
           setImpedanceLoadValue((prev) => {
@@ -48,7 +48,7 @@ function Inputs({
     }
   }
   function onChangeImpedanceTR(value, key) {
-    if (parseInt(value) == value) {
+    if (parseFloat(value) == value) {
       switch (key) {
         case "magnitude":
           setImpedanceTRValue((prev) => {
