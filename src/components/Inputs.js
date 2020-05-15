@@ -3,11 +3,17 @@ import { Row, Col, Select, Input } from "antd";
 
 const { Option } = Select;
 
-function Inputs({RValue,setRValue,voltageValue,setVoltageValue}) {
+function Inputs({
+  ImpedanceLoadValue,
+  setImpedanceLoadValue,
+  voltageValue,
+  setVoltageValue,
+  setImpedanceTRValue,
+  ImpedanceTRValue,
+}) {
   const [sourceShape, setSourceShape] = useState("Delta");
   const [loadShape, setLoadShape] = useState("Star");
   const [vType, setVType] = useState("line");
-
 
   function onChangeVoltage(value, key) {
     if (parseInt(value) == value) {
@@ -29,18 +35,35 @@ function Inputs({RValue,setRValue,voltageValue,setVoltageValue}) {
     if (parseInt(value) == value) {
       switch (key) {
         case "magnitude":
-          setRValue((prev) => {
+          setImpedanceLoadValue((prev) => {
             return { ...prev, magnitude: value };
           });
           break;
         default:
-          setRValue((prev) => {
+          setImpedanceLoadValue((prev) => {
             return { ...prev, phase: value };
           });
           break;
       }
     }
   }
+  function onChangeImpedanceTR(value, key) {
+    if (parseInt(value) == value) {
+      switch (key) {
+        case "magnitude":
+          setImpedanceTRValue((prev) => {
+            return { ...prev, magnitude: value };
+          });
+          break;
+        default:
+          setImpedanceTRValue((prev) => {
+            return { ...prev, phase: value };
+          });
+          break;
+      }
+    }
+  }
+  
   useEffect(() => {
     switch (sourceShape) {
       case "Star":
@@ -91,20 +114,41 @@ function Inputs({RValue,setRValue,voltageValue,setVoltageValue}) {
         </Col>
         <Col span={12}>
           <Row className="App">
-            <h1> R load</h1>
+            <h1> Impedance load</h1>
           </Row>
           <Row style={{ padding: "0px 10%" }}>
             <Input
               addonBefore="Magnitude"
-              value={RValue.magnitude}
+              value={ImpedanceLoadValue.magnitude}
               onChange={(event) =>
                 onChangeLoad(event.target.value, "magnitude")
               }
             />
             <Input
               addonBefore="Phase"
-              value={RValue.phase}
+              value={ImpedanceLoadValue.phase}
               onChange={(event) => onChangeLoad(event.target.value, "phase")}
+            />
+          </Row>
+        </Col>
+      </Row>
+      <Row className="App">
+        <Col span={12}>
+          <Row className="App">
+            <h1> Impedance Transmission line</h1>
+          </Row>
+          <Row style={{ padding: "0px 10%" }}>
+            <Input
+              addonBefore="Magnitude"
+              value={ImpedanceTRValue.magnitude}
+              onChange={(event) =>
+                onChangeImpedanceTR(event.target.value, "magnitude")
+              }
+            />
+            <Input
+              addonBefore="Phase"
+              value={ImpedanceTRValue.phase}
+              onChange={(event) => onChangeImpedanceTR(event.target.value, "phase")}
             />
           </Row>
         </Col>

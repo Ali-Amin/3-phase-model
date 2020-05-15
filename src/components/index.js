@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { Row, Col, Select, Input } from "antd";
+import { Row } from "antd";
 
 import Inputs from "./Inputs";
-
-const { Option } = Select;
 
 function ThreePhaseSystem() {
   const [voltageValue, setVoltageValue] = useState({
     magnitude: "0",
     phase: "0",
   });
-  const [RValue, setRValue] = useState({ magnitude: "0", phase: "0" });
+  const [ImpedanceLoadValue, setImpedanceLoadValue] = useState({
+    magnitude: "0",
+    phase: "0",
+  });
+  const [ImpedanceTRValue, setImpedanceTRValue] = useState({
+    magnitude: "0",
+    phase: "0",
+  });
+
   return (
     <div>
       <Row className="App">
@@ -20,11 +26,11 @@ function ThreePhaseSystem() {
         <Inputs
           voltageValue={voltageValue}
           setVoltageValue={setVoltageValue}
-          RValue={RValue}
-          setRValue={setRValue}
+          ImpedanceLoadValue={ImpedanceLoadValue}
+          setImpedanceLoadValue={setImpedanceLoadValue}
+          ImpedanceTRValue={ImpedanceTRValue}
+          setImpedanceTRValue={setImpedanceTRValue}
         />
-              {console.log("v", voltageValue, RValue)}
-
       </Row>
     </div>
   );
