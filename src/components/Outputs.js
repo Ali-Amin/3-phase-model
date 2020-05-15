@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Row, Button, Col} from 'antd';
+import {Row, Button, Modal} from 'antd';
 import * as circuitSolver from '../helpers/circuitSolver';
 import * as convertComplex from '../helpers/convertComplex';
 
@@ -12,6 +12,9 @@ function Outputs({
   ImpedanceLoadValue,
   connection,
 }) {
+  const [visible, setVisible] = useState(false);
+  const [output, setOutput] = useState({});
+
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
       magnitude: eval(ImpedanceTRValue.magnitude),
@@ -23,11 +26,11 @@ function Outputs({
       phase: eval(ImpedanceLoadValue.phase),
     });
 
-    let output;
+    let newOutput;
 
     switch (connection) {
       case 'StarStar':
-        output = circuitSolver.starStarSolver({
+        newOutput = circuitSolver.starStarSolver({
           sourceMag: eval(voltageValue.magnitude),
           sourcePhase: eval(voltageValue.phase),
           transmissionReal: transmissionImpedance.real,
@@ -38,7 +41,7 @@ function Outputs({
         break;
 
       case 'DeltaStar':
-        output = circuitSolver.deltaStar({
+        newOutput = circuitSolver.deltaStar({
           voltageMagnitude: eval(voltageValue.magnitude),
           voltagePhase: eval(voltageValue.phase),
           realZL: loadImpedance.real,
@@ -49,7 +52,7 @@ function Outputs({
         break;
 
       case 'StarDelta':
-        output = circuitSolver.solveStarDelta({
+        newOutput = circuitSolver.solveStarDelta({
           phaseVoltageMagnitude: eval(voltageValue.magnitude),
           phaseVoltageAngle: eval(voltageValue.phase),
           transReal: transmissionImpedance.real,
@@ -64,6 +67,8 @@ function Outputs({
     }
 
     console.log(output);
+    setVisible(true);
+    setOutput(newOutput);
     return;
   };
 
@@ -82,6 +87,15 @@ function Outputs({
       >
         <Button onClick={() => handleComputeClick()}>COMPUTE</Button>
       </Row>
+
+      <Modal
+        title="Results"
+        visible={visible}
+        onOk={() => setVisible(false)}
+        closable={false}
+      >
+        <p>{JSON.stringify(output)}</p>
+      </Modal>
     </div>
   );
 }
