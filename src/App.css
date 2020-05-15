@@ -9,7 +9,10 @@
   flex-direction: column;
 
 }
-
+.selectShape{
+  width: 40%;
+  min-width: 80px;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
