@@ -10,9 +10,12 @@ function Inputs({
   setVoltageValue,
   setImpedanceTRValue,
   ImpedanceTRValue,
+  sourceShape,
+  loadShape,
+  setSourceShape,
+  setLoadShape
 }) {
-  const [sourceShape, setSourceShape] = useState("Delta");
-  const [loadShape, setLoadShape] = useState("Star");
+
   const [vType, setVType] = useState("line");
 
   function onChangeVoltage(value, key) {
