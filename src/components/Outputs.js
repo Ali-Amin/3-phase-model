@@ -1,9 +1,19 @@
 import React, {useState} from 'react';
-import {Row, Button, Modal} from 'antd';
+import {Row, Button, Modal, Col} from 'antd';
 import * as circuitSolver from '../helpers/circuitSolver';
 import * as convertComplex from '../helpers/convertComplex';
-
 import systems from '../assets';
+
+const styles = {
+  tableHeader: {
+    backgroundColor: 'grey',
+    color: 'white',
+    textAlign: 'center',
+  },
+  tableRow: {
+    textAlign: 'center',
+  },
+};
 
 function Outputs({
   system,
@@ -13,7 +23,7 @@ function Outputs({
   connection,
 }) {
   const [visible, setVisible] = useState(false);
-  const [output, setOutput] = useState({});
+  const [output, setOutput] = useState({source: {}, load: {}});
 
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
@@ -67,8 +77,8 @@ function Outputs({
     }
 
     console.log(output);
-    setVisible(true);
     setOutput(newOutput);
+    setVisible(true);
     return;
   };
 
@@ -94,7 +104,38 @@ function Outputs({
         onOk={() => setVisible(false)}
         closable={false}
       >
-        <p>{JSON.stringify(output)}</p>
+        <Row>
+          <Col span={10}></Col>
+          <Col span={7} style={styles.tableHeader}>
+            SOURCE
+          </Col>
+          <Col span={7} style={styles.tableHeader}>
+            LOAD
+          </Col>
+        </Row>
+        {Object.keys(output.source).map((key) => {
+          return (
+            <Row key={key} style={styles.tableRow}>
+              <Col span={10} style={styles.tableHeader}>
+                {key}
+              </Col>
+              <Col span={7}>
+                {output.source[key] !== null
+                  ? `${output.source[key]?.magnitude.toFixed(
+                      2
+                    )} < ${output.source[key]?.phase.toFixed(2)}`
+                  : '-'}
+              </Col>
+              <Col span={7}>
+                {output.load[key] !== null
+                  ? `${output.load[key]?.magnitude.toFixed(2)} < ${output.load[
+                      key
+                    ]?.phase.toFixed(2)}`
+                  : '-'}
+              </Col>
+            </Row>
+          );
+        })}
       </Modal>
     </div>
   );
