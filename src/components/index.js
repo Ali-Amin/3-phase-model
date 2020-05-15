@@ -45,6 +45,7 @@ function ThreePhaseSystem() {
           voltageValue={voltageValue}
           ImpedanceTRValue={ImpedanceTRValue}
           ImpedanceLoadValue={ImpedanceLoadValue}
+          connection={sourceShape + loadShape}
           system={`${sourceShape}_${loadShape}`}
         />
       </Row>
