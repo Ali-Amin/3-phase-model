@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Row } from "antd";
+import { Row, Divider } from "antd";
 
 import Inputs from "./Inputs";
+import Outputs from "./Outputs";
 
 function ThreePhaseSystem() {
   const [voltageValue, setVoltageValue] = useState({
@@ -16,6 +17,8 @@ function ThreePhaseSystem() {
     magnitude: "0",
     phase: "0",
   });
+  const [sourceShape, setSourceShape] = useState("Delta");
+  const [loadShape, setLoadShape] = useState("Star");
 
   return (
     <div>
@@ -30,7 +33,15 @@ function ThreePhaseSystem() {
           setImpedanceLoadValue={setImpedanceLoadValue}
           ImpedanceTRValue={ImpedanceTRValue}
           setImpedanceTRValue={setImpedanceTRValue}
+          sourceShape={sourceShape}
+          setSourceShape={setSourceShape}
+          loadShape={loadShape}
+          setLoadShape={setLoadShape}
         />
+      </Row>
+      <Divider className="Divider">Output</Divider>
+      <Row className="Outputs">
+        <Outputs system={`${sourceShape}_${loadShape}`} />
       </Row>
     </div>
   );

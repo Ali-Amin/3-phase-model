@@ -10,60 +10,63 @@ function Inputs({
   setVoltageValue,
   setImpedanceTRValue,
   ImpedanceTRValue,
+  sourceShape,
+  loadShape,
+  setSourceShape,
+  setLoadShape
 }) {
-  const [sourceShape, setSourceShape] = useState("Delta");
-  const [loadShape, setLoadShape] = useState("Star");
+
   const [vType, setVType] = useState("line");
 
   function onChangeVoltage(value, key) {
-    if (parseInt(value) == value) {
+    if (parseFloat(value) == value || value==='' ) {
       switch (key) {
         case "magnitude":
           setVoltageValue((prev) => {
-            return { ...prev, magnitude: value };
+            return { ...prev, magnitude: value?value:'0' };
           });
           break;
         default:
           setVoltageValue((prev) => {
-            return { ...prev, phase: value };
+            return { ...prev, phase: value?value:'0' };
           });
           break;
       }
     }
   }
   function onChangeLoad(value, key) {
-    if (parseInt(value) == value) {
+    if (parseFloat(value) == value || value==='') {
       switch (key) {
         case "magnitude":
           setImpedanceLoadValue((prev) => {
-            return { ...prev, magnitude: value };
+            return { ...prev, magnitude: value?value:'0' };
           });
           break;
         default:
           setImpedanceLoadValue((prev) => {
-            return { ...prev, phase: value };
+            return { ...prev, phase: value?value:'0' };
           });
           break;
       }
     }
   }
   function onChangeImpedanceTR(value, key) {
-    if (parseInt(value) == value) {
+    if (parseFloat(value) == value || value==='') {
       switch (key) {
         case "magnitude":
           setImpedanceTRValue((prev) => {
-            return { ...prev, magnitude: value };
+            return { ...prev, magnitude: value?value:'0' };
           });
           break;
         default:
           setImpedanceTRValue((prev) => {
-            return { ...prev, phase: value };
+            return { ...prev, phase: value?value:'0' };
           });
           break;
       }
     }
   }
-  
+
   useEffect(() => {
     switch (sourceShape) {
       case "Star":
@@ -79,13 +82,21 @@ function Inputs({
     <div>
       <Row gutter={[16, 24]}>
         <Col span={12}>
-          <Select defaultValue={sourceShape} onChange={setSourceShape}>
+          <Select
+            defaultValue={sourceShape}
+            onChange={setSourceShape}
+            className="selectShape"
+          >
             <Option value="Delta">Delta</Option>
             <Option value="Star">Star</Option>
           </Select>
         </Col>
         <Col span={12}>
-          <Select defaultValue={loadShape} onChange={setLoadShape}>
+          <Select
+            defaultValue={loadShape}
+            onChange={setLoadShape}
+            className="selectShape"
+          >
             <Option value="Delta">Delta</Option>
             <Option value="Star">Star</Option>
           </Select>
@@ -148,7 +159,9 @@ function Inputs({
             <Input
               addonBefore="Phase"
               value={ImpedanceTRValue.phase}
-              onChange={(event) => onChangeImpedanceTR(event.target.value, "phase")}
+              onChange={(event) =>
+                onChangeImpedanceTR(event.target.value, "phase")
+              }
             />
           </Row>
         </Col>
