@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row } from "antd";
 
-import systems from "../assets";
+import systemAssets from "../assets";
 
-function Outputs({system}) {
-
-  
+function Outputs({ system }) {
   return (
-    <div >
+    <div>
       <Row>
-        {console.log(system)}
-        <img src={systems[system]} width={540} height={350}/>
+        <img src={systemAssets[system]} width={540} height={350} />
       </Row>
     </div>
   );
