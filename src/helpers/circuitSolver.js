@@ -1,7 +1,7 @@
 import * as convertComplex from './convertComplex';
 import * as complexOperations from './complexOperations';
 
-export function starStarSolver({
+export function starStar({
   sourceMag,
   sourcePhase,
   transmissionReal,
@@ -101,7 +101,7 @@ export function starStarSolver({
   };
 }
 
-export function solveStarDelta({
+export function starDelta({
   phaseVoltageMagnitude,
   phaseVoltageAngle,
   transReal,
@@ -231,7 +231,7 @@ export function deltaStar({
   });
   const phasorLoad = convertComplex.cartesianToPhasor({
     real: realZL,
-    imaginary: imagZL
+    imaginary: imagZL,
   });
   const loadPhaseVoltage = complexOperations.multiplicationPhasor({
     magnitude1: lineCurrent.magnitude,
@@ -280,18 +280,17 @@ export function deltaStar({
   };
 }
 
-export function solveDeltaDelta({
+export function deltaDelta({
   lineVoltageMagnitude,
   lineVoltagePhase,
   transImpReal,
   transImpImag,
   loadImpReal,
-  loadImpImag
-
+  loadImpImag,
 }) {
   const phaseVoltage = {
     magnitude: lineVoltageMagnitude / Math.sqrt(3),
-    phase: lineVoltagePhase - 30
+    phase: lineVoltagePhase - 30,
   };
   const totalImp = complexOperations.addComplex({
     real1: loadImpReal / 3,
@@ -306,17 +305,17 @@ export function solveDeltaDelta({
     magnitude1: phaseVoltage.magnitude,
     phase1: phaseVoltage.phase,
     magnitude2: totalImpPhasor.magnitude,
-    phase2: totalImpPhasor.phase
+    phase2: totalImpPhasor.phase,
   });
 
   const phaseCurrent = {
     magnitude: lineCurrent.magnitude / Math.sqrt(3),
-    phase: lineCurrent.phase + 30
+    phase: lineCurrent.phase + 30,
   };
 
   const loadImpPhasor = convertComplex.cartesianToPhasor({
     real: loadImpReal,
-    imaginary: loadImpImag
+    imaginary: loadImpImag,
   });
   const loadPhaseVoltage = complexOperations.multiplicationPhasor({
     magnitude1: phaseCurrent.magnitude,
@@ -327,11 +326,13 @@ export function solveDeltaDelta({
 
   const loadLineVoltage = {
     magnitude: loadPhaseVoltage.magnitude * Math.sqrt(3),
-    phase: loadPhaseVoltage.phase + 30
+    phase: loadPhaseVoltage.phase + 30,
   };
 
-  const singlePhaseLoadActivePower = Math.pow(phaseCurrent.magnitude, 2) * loadImpReal;
-  const singlePhaseLoadReactivePower = Math.pow(phaseCurrent.magnitude, 2) * loadImpImag;
+  const singlePhaseLoadActivePower =
+    Math.pow(phaseCurrent.magnitude, 2) * loadImpReal;
+  const singlePhaseLoadReactivePower =
+    Math.pow(phaseCurrent.magnitude, 2) * loadImpImag;
   const singlePhaseLoadApparentPower = convertComplex.cartesianToPhasor({
     real: singlePhaseLoadActivePower,
     imaginary: singlePhaseLoadReactivePower,
@@ -341,8 +342,10 @@ export function solveDeltaDelta({
     phase: singlePhaseLoadApparentPower.phase,
   };
 
-  const singlePhaseTransActivePower = Math.pow(lineCurrent.magnitude, 2) * transImpReal;
-  const singlePhaseTransReactivePower = Math.pow(lineCurrent.magnitude, 2) * transImpImag;
+  const singlePhaseTransActivePower =
+    Math.pow(lineCurrent.magnitude, 2) * transImpReal;
+  const singlePhaseTransReactivePower =
+    Math.pow(lineCurrent.magnitude, 2) * transImpImag;
 
   const singlePhaseTotalApparentPower = convertComplex.cartesianToPhasor({
     real: singlePhaseLoadActivePower + singlePhaseTransActivePower,
@@ -350,12 +353,12 @@ export function solveDeltaDelta({
   });
   const threePhaseTotalApparentPower = {
     magnitude: singlePhaseTotalApparentPower.magnitude * 3,
-    phase: singlePhaseTotalApparentPower.phase
+    phase: singlePhaseTotalApparentPower.phase,
   };
 
   return {
     source: {
-      lineVoltage: { magnitude: lineVoltageMagnitude, phase: lineVoltagePhase },
+      lineVoltage: {magnitude: lineVoltageMagnitude, phase: lineVoltagePhase},
       lineCurrent: lineCurrent,
       phaseCurrent: null,
       singlePhaseApparentPower: singlePhaseTotalApparentPower,
@@ -371,4 +374,3 @@ export function solveDeltaDelta({
     },
   };
 }
-

@@ -40,7 +40,7 @@ function Outputs({
 
     switch (connection) {
       case 'StarStar':
-        newOutput = circuitSolver.starStarSolver({
+        newOutput = circuitSolver.starStar({
           sourceMag: eval(voltageValue.magnitude),
           sourcePhase: eval(voltageValue.phase),
           transmissionReal: transmissionImpedance.real,
@@ -62,7 +62,7 @@ function Outputs({
         break;
 
       case 'StarDelta':
-        newOutput = circuitSolver.solveStarDelta({
+        newOutput = circuitSolver.starDelta({
           phaseVoltageMagnitude: eval(voltageValue.magnitude),
           phaseVoltageAngle: eval(voltageValue.phase),
           transReal: transmissionImpedance.real,
@@ -87,7 +87,6 @@ function Outputs({
       <Row>
         {console.log(system)}
         <img alt="" src={systems[system]} width={540} height={350} />
-
       </Row>
       <Row
         align="middle"
