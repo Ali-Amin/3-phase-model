@@ -9,9 +9,17 @@ const styles = {
     backgroundColor: 'grey',
     color: 'white',
     textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tableRow: {
     textAlign: 'center',
+  },
+  vSeparator: {
+    backgroundColor: 'grey',
+    height: '80px',
+    width: '2px',
   },
 };
 
@@ -114,9 +122,10 @@ function Outputs({
         visible={visible}
         onOk={() => setVisible(false)}
         closable={false}
+        width={800}
       >
-        <Row>
-          <Col span={10}></Col>
+        <Row justify="center" align="middle" style={styles.tableRow}>
+          <Col span={9}></Col>
           <Col span={7} style={styles.tableHeader}>
             SOURCE
           </Col>
@@ -126,22 +135,39 @@ function Outputs({
         </Row>
         {Object.keys(output.source).map((key) => {
           return (
-            <Row key={key} style={styles.tableRow}>
-              <Col span={10} style={styles.tableHeader}>
+            <Row
+              key={key}
+              justify="center"
+              align="middle"
+              style={styles.tableRow}
+            >
+              <Col
+                span={9}
+                style={Object.assign({height: '80px'}, styles.tableHeader)}
+              >
                 {key}
               </Col>
               <Col span={7}>
-                {output.source[key] !== null
-                  ? `${output.source[key]?.magnitude.toFixed(
-                      2
-                    )} < ${output.source[key]?.phase.toFixed(2)}`
+                {output.source[key] !== null && output.source[key] !== undefined
+                  ? Object.keys(output.source[key]).map((val) => (
+                      <div>{`${val} = ${output.source[key][
+                        val
+                      ]?.magnitude.toFixed(2)} < ${output.source[key][
+                        val
+                      ]?.phase.toFixed(2)}`}</div>
+                    ))
                   : '-'}
               </Col>
+              <Col style={styles.vSeparator}></Col>
               <Col span={7}>
-                {output.load[key] !== null
-                  ? `${output.load[key]?.magnitude.toFixed(2)} < ${output.load[
-                      key
-                    ]?.phase.toFixed(2)}`
+                {output.load[key] !== null && output.load[key] !== undefined
+                  ? Object.keys(output.load[key]).map((val) => (
+                      <div>{`${val} = ${output.load[key][
+                        val
+                      ]?.magnitude.toFixed(2)} < ${output.load[key][
+                        val
+                      ]?.phase.toFixed(2)}`}</div>
+                    ))
                   : '-'}
               </Col>
             </Row>
