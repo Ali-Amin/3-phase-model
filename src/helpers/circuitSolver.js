@@ -83,20 +83,98 @@ export function starStar({
 
   return {
     source: {
-      lineCurrent: lineCurrentPhasor,
-      phaseCurrent: lineCurrentPhasor,
-      lineVoltage: sourceLineVoltagePhasor,
-      phaseVoltage: sourcePhaseVoltagePhasor,
-      singlePhaseApparentPower: singlePhaseTotalApparentPower,
-      threePhaseApparentPower: threePhaseTotalApparentPower,
+      lineCurrent: {
+        I_aA: lineCurrentPhasor,
+        I_bB: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      phaseCurrent: {
+        I_na: lineCurrentPhasor,
+        I_nb: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_nc: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      lineVoltage: {
+        V_ab: sourceLineVoltagePhasor,
+        V_bc: {
+          magnitude: sourceLineVoltagePhasor.magnitude,
+          phase: sourceLineVoltagePhasor.phase - 120,
+        },
+        V_ca: {
+          magnitude: sourceLineVoltagePhasor.magnitude,
+          phase: sourceLineVoltagePhasor.phase + 120,
+        },
+      },
+      phaseVoltage: {
+        V_an: sourcePhaseVoltagePhasor,
+        V_bn: {
+          magnitude: sourcePhaseVoltagePhasor.magnitude,
+          phase: sourcePhaseVoltagePhasor.phase - 120,
+        },
+        V_cn: {
+          magnitude: sourcePhaseVoltagePhasor.magnitude,
+          phase: sourcePhaseVoltagePhasor.phase + 120,
+        },
+      },
+      singlePhaseApparentPower: {
+        S1: singlePhaseTotalApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseTotalApparentPower,
+      },
     },
     load: {
-      lineCurrent: lineCurrentPhasor,
-      phaseCurrent: lineCurrentPhasor,
+      lineCurrent: {
+        I_aA: lineCurrentPhasor,
+        I_bB: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      phaseCurrent: {
+        I_An: lineCurrentPhasor,
+        I_Bn: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_Cn: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
       lineVoltage: null,
-      phaseVoltage: loadPhaseVoltagePhasor,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadApparentPower,
+      phaseVoltage: {
+        V_An: loadPhaseVoltagePhasor,
+        V_Bn: {
+          magnitude: loadPhaseVoltagePhasor.magnitude,
+          phase: loadPhaseVoltagePhasor.phase - 120,
+        },
+        V_Cn: {
+          magnitude: loadPhaseVoltagePhasor.magnitude,
+          phase: loadPhaseVoltagePhasor.phase + 120,
+        },
+      },
+      singlePhaseApparentPower: {
+        S1: singlePhaseLoadApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseLoadApparentPower,
+      },
     },
   };
 }
@@ -179,22 +257,110 @@ export function starDelta({
   return {
     source: {
       phaseVoltage: {
-        magnitude: phaseVoltageMagnitude,
-        phase: phaseVoltageAngle,
+        V_an: {
+          magnitude: phaseVoltageMagnitude,
+          phase: phaseVoltageAngle,
+        },
+        V_bn: {
+          magnitude: phaseVoltageMagnitude,
+          phase: phaseVoltageAngle - 120,
+        },
+        V_cn: {
+          magnitude: phaseVoltageMagnitude,
+          phase: phaseVoltageAngle + 120,
+        },
       },
-      lineVoltage: sourceLineVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: phaseCurrent,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadActivePower,
+      lineVoltage: {
+        V_ab: sourceLineVoltage,
+        V_bc: {
+          magnitude: sourceLineVoltage.magnitude,
+          phase: sourceLineVoltage.phase - 120,
+        },
+        V_ca: {
+          magnitude: sourceLineVoltage.magnitude,
+          phase: sourceLineVoltage.phase + 120,
+        },
+      },
+      lineCurrent: {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      phaseCurrent: {
+        I_na: lineCurrent,
+        I_nb: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_nc: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      singlePhaseApparentPower: {
+        S1: singlePhaseLoadApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseLoadActivePower,
+      },
     },
     load: {
-      phaseVoltage: loadLineVoltage,
-      lineVoltage: loadLineVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: phaseCurrent,
-      singlePhaseApparentPower: singlePhaseTotalApparentPower,
-      threePhaseApparentPower: threePhaseTotalApparentPower,
+      phaseVoltage: {
+        V_AB: loadLineVoltage,
+        V_BC: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase + 120,
+        },
+      },
+      lineVoltage: {
+        V_AB: loadLineVoltage,
+        V_BC: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase + 120,
+        },
+      },
+      lineCurrent: {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      phaseCurrent: {
+        I_AB: phaseCurrent,
+        I_BC: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase - 120,
+        },
+        I_CA: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase + 120,
+        },
+      },
+      singlePhaseApparentPower: {
+        S1: singlePhaseTotalApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseTotalApparentPower,
+      },
     },
   };
 }
@@ -264,18 +430,66 @@ export function deltaStar({
   };
   return {
     source: {
-      phaseVoltage: phaseVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: lineCurrent,
-      singlePhaseApparentPower: singlePhaseApparentPower,
-      threePhaseApparentPower: threePhaseApparentPower,
+      phaseVoltage: {
+        V_ab: phaseVoltage,
+        V_bc: {
+          magnitude: phaseVoltage.magnitude,
+          phase: phaseVoltage.phase - 120,
+        },
+        V_ca: {
+          magnitude: phaseVoltage.magnitude,
+          phase: phaseVoltage.phase + 120,
+        },
+      },
+      lineCurrent: null,
+      phaseCurrent: null,
+      singlePhaseApparentPower: {
+        S1: singlePhaseApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseApparentPower,
+      },
     },
     load: {
-      lineCurrent: lineCurrent,
-      phaseCurrent: lineCurrent,
-      loadPhaseVoltage: loadPhaseVoltage,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadApparentPower,
+      lineCurrent: {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      phaseCurrent: {
+        I_An: lineCurrent,
+        I_Bn: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_Cn: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      loadPhaseVoltage: {
+        V_An: loadPhaseVoltage,
+        V_Bn: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase - 120,
+        },
+        V_Cn: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      singlePhaseApparentPower: {
+        S1: singlePhaseLoadApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseLoadApparentPower,
+      },
     },
   };
 }
@@ -358,19 +572,104 @@ export function deltaDelta({
 
   return {
     source: {
-      lineVoltage: {magnitude: lineVoltageMagnitude, phase: lineVoltagePhase},
-      lineCurrent: lineCurrent,
+      lineVoltage: {
+        V_ab: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase,
+        },
+        v_bc: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase - 120,
+        },
+        V_ca: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase + 120,
+        },
+      },
+      phaseVoltage: {
+        V_ab: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase,
+        },
+        v_bc: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase - 120,
+        },
+        V_ca: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase + 120,
+        },
+      },
+      lineCurrent: {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
       phaseCurrent: null,
-      singlePhaseApparentPower: singlePhaseTotalApparentPower,
-      threePhaseApparentPower: threePhaseTotalApparentPower,
+      singlePhaseApparentPower: {
+        S1: singlePhaseTotalApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseTotalApparentPower,
+      },
     },
     load: {
-      phaseVoltage: loadPhaseVoltage,
-      lineVoltage: loadLineVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: phaseCurrent,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadApparentPower,
+      phaseVoltage: {
+        V_AB: loadPhaseVoltage,
+        V_BC: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      lineVoltage: {
+        V_AB: loadPhaseVoltage,
+        V_BC: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      lineCurrent: {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      phaseCurrent: {
+        I_AB: phaseCurrent,
+        I_BC: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase - 120,
+        },
+        I_CA: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase + 120,
+        },
+      },
+      singlePhaseApparentPower: {
+        S1: singlePhaseLoadApparentPower,
+      },
+      threePhaseApparentPower: {
+        S3: threePhaseLoadApparentPower,
+      },
     },
   };
 }
