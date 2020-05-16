@@ -152,12 +152,12 @@ export function starStar({
         },
       },
       'Phase Current': {
-        I_An: lineCurrentPhasor,
-        I_Bn: {
+        I_A: lineCurrentPhasor,
+        I_B: {
           magnitude: lineCurrentPhasor.magnitude,
           phase: lineCurrentPhasor.phase - 120,
         },
-        I_Cn: {
+        I_C: {
           magnitude: lineCurrentPhasor.magnitude,
           phase: lineCurrentPhasor.phase + 120,
         },
@@ -473,7 +473,17 @@ export function deltaStar({
           phase: voltagePhase + 120,
         },
       },
-      'Line Current': null,
+      'Line Current': {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
       'Phase Current': null,
       'Single Phase Apparent Power': {
         S_1: singlePhaseApparentPower,
@@ -495,12 +505,12 @@ export function deltaStar({
         },
       },
       'Phase Current': {
-        I_An: lineCurrent,
-        I_Bn: {
+        I_A: lineCurrent,
+        I_B: {
           magnitude: lineCurrent.magnitude,
           phase: lineCurrent.phase - 120,
         },
-        I_Cn: {
+        I_C: {
           magnitude: lineCurrent.magnitude,
           phase: lineCurrent.phase + 120,
         },
@@ -514,6 +524,20 @@ export function deltaStar({
         V_Cn: {
           magnitude: loadPhaseVoltage.magnitude,
           phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      'Line Voltage': {
+        V_AB: {
+          magnitude: loadPhaseVoltage.magnitude * Math.sqrt (3),
+          phase: loadPhaseVoltage.phase + 30,
+        },
+        V_BC: {
+          magnitude: loadPhaseVoltage.magnitude * Math.sqrt (3),
+          phase: loadPhaseVoltage.phase + 30 - 120,
+        },
+        V_CA: {
+          magnitude: loadPhaseVoltage.magnitude * Math.sqrt (3),
+          phase: loadPhaseVoltage.phase + 30 + 120,
         },
       },
       'Single Phase Apparent Power': {
