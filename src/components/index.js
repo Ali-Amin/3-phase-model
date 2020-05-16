@@ -3,6 +3,7 @@ import { Row, Divider } from "antd";
 
 import Inputs from "./Inputs";
 import Outputs from "./Outputs";
+import EffectChart from "./EffectChart";
 
 function ThreePhaseSystem() {
   const [voltageValue, setVoltageValue] = useState({
@@ -41,7 +42,22 @@ function ThreePhaseSystem() {
       </Row>
       <Divider className="Divider">Output</Divider>
       <Row className="Outputs">
-        <Outputs system={`${sourceShape}_${loadShape}`} />
+        <Outputs
+          voltageValue={voltageValue}
+          ImpedanceTRValue={ImpedanceTRValue}
+          ImpedanceLoadValue={ImpedanceLoadValue}
+          connection={sourceShape + loadShape}
+          system={`${sourceShape}_${loadShape}`}
+        />
+        <Row>
+          <EffectChart
+            voltageValue={voltageValue}
+            ImpedanceTRValue={ImpedanceTRValue}
+            ImpedanceLoadValue={ImpedanceLoadValue}
+            connection={sourceShape + loadShape}
+            system={`${sourceShape}_${loadShape}`}
+          />
+        </Row>
       </Row>
     </div>
   );
