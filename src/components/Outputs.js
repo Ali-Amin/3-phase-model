@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Row, Button, Modal, Col} from 'antd';
 import * as circuitSolver from '../helpers/circuitSolver';
 import * as convertComplex from '../helpers/convertComplex';
@@ -9,9 +9,18 @@ const styles = {
     backgroundColor: 'grey',
     color: 'white',
     textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tableRow: {
     textAlign: 'center',
+    fontSize: '18px',
+  },
+  vSeparator: {
+    backgroundColor: 'grey',
+    height: '95px',
+    width: '2px',
   },
 };
 
@@ -24,25 +33,34 @@ function Outputs({
 }) {
   const [visible, setVisible] = useState(false);
   const [output, setOutput] = useState({source: {}, load: {}});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    if (
+      parseFloat(voltageValue.magnitude) !== 0 &&
+      parseFloat(ImpedanceLoadValue.magnitude) !== 0
+    )
+      setButtonDisabled(false);
+  }, [voltageValue, ImpedanceLoadValue]);
 
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
-      magnitude: eval(ImpedanceTRValue.magnitude),
-      phase: eval(ImpedanceTRValue.phase),
+      magnitude: parseFloat(ImpedanceTRValue.magnitude),
+      phase: parseFloat(ImpedanceTRValue.phase),
     });
 
     const loadImpedance = convertComplex.phasorToCartesian({
-      magnitude: eval(ImpedanceLoadValue.magnitude),
-      phase: eval(ImpedanceLoadValue.phase),
+      magnitude: parseFloat(ImpedanceLoadValue.magnitude),
+      phase: parseFloat(ImpedanceLoadValue.phase),
     });
 
     let newOutput;
 
     switch (connection) {
       case 'StarStar':
-        newOutput = circuitSolver.starStarSolver({
-          sourceMag: eval(voltageValue.magnitude),
-          sourcePhase: eval(voltageValue.phase),
+        newOutput = circuitSolver.starStar({
+          sourceMag: parseFloat(voltageValue.magnitude),
+          sourcePhase: parseFloat(voltageValue.phase),
           transmissionReal: transmissionImpedance.real,
           transmissionImag: transmissionImpedance.imaginary,
           loadReal: loadImpedance.real,
@@ -52,8 +70,8 @@ function Outputs({
 
       case 'DeltaStar':
         newOutput = circuitSolver.deltaStar({
-          voltageMagnitude: eval(voltageValue.magnitude),
-          voltagePhase: eval(voltageValue.phase),
+          voltageMagnitude: parseFloat(voltageValue.magnitude),
+          voltagePhase: parseFloat(voltageValue.phase),
           realZL: loadImpedance.real,
           imagZL: loadImpedance.imaginary,
           realZT: transmissionImpedance.real,
@@ -62,13 +80,24 @@ function Outputs({
         break;
 
       case 'StarDelta':
-        newOutput = circuitSolver.solveStarDelta({
-          phaseVoltageMagnitude: eval(voltageValue.magnitude),
-          phaseVoltageAngle: eval(voltageValue.phase),
+        newOutput = circuitSolver.starDelta({
+          phaseVoltageMagnitude: parseFloat(voltageValue.magnitude),
+          phaseVoltageAngle: parseFloat(voltageValue.phase),
           transReal: transmissionImpedance.real,
           transImag: transmissionImpedance.imaginary,
           loadReal: loadImpedance.real,
           loadImag: loadImpedance.imaginary,
+        });
+        break;
+
+      case 'DeltaDelta':
+        newOutput = circuitSolver.deltaDelta({
+          lineVoltageMagnitude: parseFloat(voltageValue.magnitude),
+          lineVoltagePhase: parseFloat(voltageValue.phase),
+          transImpReal: transmissionImpedance.real,
+          transImpImag: transmissionImpedance.imaginary,
+          loadImpReal: loadImpedance.real,
+          loadImpImag: loadImpedance.imaginary,
         });
         break;
 
@@ -87,7 +116,6 @@ function Outputs({
       <Row>
         {console.log(system)}
         <img alt="" src={systems[system]} width={540} height={350} />
-
       </Row>
       <Row
         align="middle"
@@ -96,7 +124,9 @@ function Outputs({
           marginTop: '20px',
         }}
       >
-        <Button onClick={() => handleComputeClick()}>COMPUTE</Button>
+        <Button disabled={buttonDisabled} onClick={() => handleComputeClick()}>
+          COMPUTE
+        </Button>
       </Row>
 
       <Modal
@@ -104,34 +134,70 @@ function Outputs({
         visible={visible}
         onOk={() => setVisible(false)}
         closable={false}
+        width={900}
       >
-        <Row>
-          <Col span={10}></Col>
-          <Col span={7} style={styles.tableHeader}>
+        <Row justify="center" align="middle" style={styles.tableRow}>
+          <Col span={7}></Col>
+          <Col span={8} style={styles.tableHeader}>
             SOURCE
           </Col>
-          <Col span={7} style={styles.tableHeader}>
+          <Col span={8} style={styles.tableHeader}>
             LOAD
           </Col>
         </Row>
         {Object.keys(output.source).map((key) => {
           return (
-            <Row key={key} style={styles.tableRow}>
-              <Col span={10} style={styles.tableHeader}>
+            <Row
+              key={key}
+              justify="center"
+              align="middle"
+              style={styles.tableRow}
+            >
+              <Col
+                span={7}
+                style={Object.assign({height: '95px'}, styles.tableHeader)}
+              >
                 {key}
               </Col>
-              <Col span={7}>
-                {output.source[key] !== null
-                  ? `${output.source[key]?.magnitude.toFixed(
-                      2
-                    )} < ${output.source[key]?.phase.toFixed(2)}`
+              <Col span={8}>
+                {output.source[key] !== null && output.source[key] !== undefined
+                  ? Object.keys(output.source[key]).map((val) => {
+                      const symbols = val.split('_');
+                      return (
+                        <div>
+                          <span>{symbols[0]}</span>
+                          <span>
+                            <sub>{symbols[1]}</sub>
+                          </span>
+                          <span>{` = ${output.source[key][
+                            val
+                          ]?.magnitude.toFixed(2)} < ${output.source[key][
+                            val
+                          ]?.phase.toFixed(2)}`}</span>
+                        </div>
+                      );
+                    })
                   : '-'}
               </Col>
-              <Col span={7}>
-                {output.load[key] !== null
-                  ? `${output.load[key]?.magnitude.toFixed(2)} < ${output.load[
-                      key
-                    ]?.phase.toFixed(2)}`
+              <Col style={styles.vSeparator}></Col>
+              <Col span={8}>
+                {output.load[key] !== null && output.load[key] !== undefined
+                  ? Object.keys(output.load[key]).map((val) => {
+                      const symbols = val.split('_');
+                      return (
+                        <div>
+                          <span>{symbols[0]}</span>
+                          <span>
+                            <sub>{symbols[1]}</sub>
+                          </span>
+                          <span>{` = ${output.load[key][val]?.magnitude.toFixed(
+                            2
+                          )} < ${output.load[key][val]?.phase.toFixed(
+                            2
+                          )}`}</span>
+                        </div>
+                      );
+                    })
                   : '-'}
               </Col>
             </Row>

@@ -17,7 +17,7 @@ function ThreePhaseSystem() {
     magnitude: '0',
     phase: '0',
   });
-  const [sourceShape, setSourceShape] = useState('Delta');
+  const [sourceShape, setSourceShape] = useState('Star');
   const [loadShape, setLoadShape] = useState('Star');
 
   return (
