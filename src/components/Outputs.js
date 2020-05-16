@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Row, Button, Modal, Col} from 'antd';
 import * as circuitSolver from '../helpers/circuitSolver';
 import * as convertComplex from '../helpers/convertComplex';
@@ -15,10 +15,11 @@ const styles = {
   },
   tableRow: {
     textAlign: 'center',
+    fontSize: '18px',
   },
   vSeparator: {
     backgroundColor: 'grey',
-    height: '80px',
+    height: '95px',
     width: '2px',
   },
 };
@@ -32,6 +33,15 @@ function Outputs({
 }) {
   const [visible, setVisible] = useState(false);
   const [output, setOutput] = useState({source: {}, load: {}});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    if (
+      parseFloat(voltageValue.magnitude) !== 0 &&
+      parseFloat(ImpedanceLoadValue.magnitude) !== 0
+    )
+      setButtonDisabled(false);
+  }, [voltageValue, ImpedanceLoadValue]);
 
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
@@ -114,7 +124,9 @@ function Outputs({
           marginTop: '20px',
         }}
       >
-        <Button onClick={() => handleComputeClick()}>COMPUTE</Button>
+        <Button disabled={buttonDisabled} onClick={() => handleComputeClick()}>
+          COMPUTE
+        </Button>
       </Row>
 
       <Modal
@@ -143,31 +155,49 @@ function Outputs({
             >
               <Col
                 span={9}
-                style={Object.assign({height: '80px'}, styles.tableHeader)}
+                style={Object.assign({height: '95px'}, styles.tableHeader)}
               >
                 {key}
               </Col>
               <Col span={7}>
                 {output.source[key] !== null && output.source[key] !== undefined
-                  ? Object.keys(output.source[key]).map((val) => (
-                      <div>{`${val} = ${output.source[key][
-                        val
-                      ]?.magnitude.toFixed(2)} < ${output.source[key][
-                        val
-                      ]?.phase.toFixed(2)}`}</div>
-                    ))
+                  ? Object.keys(output.source[key]).map((val) => {
+                      const symbols = val.split('_');
+                      return (
+                        <div>
+                          <span>{symbols[0]}</span>
+                          <span>
+                            <sub>{symbols[1]}</sub>
+                          </span>
+                          <span>{` = ${output.source[key][
+                            val
+                          ]?.magnitude.toFixed(2)} < ${output.source[key][
+                            val
+                          ]?.phase.toFixed(2)}`}</span>
+                        </div>
+                      );
+                    })
                   : '-'}
               </Col>
               <Col style={styles.vSeparator}></Col>
               <Col span={7}>
                 {output.load[key] !== null && output.load[key] !== undefined
-                  ? Object.keys(output.load[key]).map((val) => (
-                      <div>{`${val} = ${output.load[key][
-                        val
-                      ]?.magnitude.toFixed(2)} < ${output.load[key][
-                        val
-                      ]?.phase.toFixed(2)}`}</div>
-                    ))
+                  ? Object.keys(output.load[key]).map((val) => {
+                      const symbols = val.split('_');
+                      return (
+                        <div>
+                          <span>{symbols[0]}</span>
+                          <span>
+                            <sub>{symbols[1]}</sub>
+                          </span>
+                          <span>{` = ${output.load[key][val]?.magnitude.toFixed(
+                            2
+                          )} < ${output.load[key][val]?.phase.toFixed(
+                            2
+                          )}`}</span>
+                        </div>
+                      );
+                    })
                   : '-'}
               </Col>
             </Row>

@@ -128,10 +128,10 @@ export function starStar({
         },
       },
       'Single Phase Apparent Power': {
-        S1: singlePhaseTotalApparentPower,
+        S_1: singlePhaseTotalApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseTotalApparentPower,
+        S_3: threePhaseTotalApparentPower,
       },
     },
     load: {
@@ -170,10 +170,10 @@ export function starStar({
         },
       },
       'Single Phase Apparent Power': {
-        S1: singlePhaseLoadApparentPower,
+        S_1: singlePhaseLoadApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseLoadApparentPower,
+        S_3: threePhaseLoadApparentPower,
       },
     },
   };
@@ -304,10 +304,10 @@ export function starDelta({
         },
       },
       'Single Phase Apparent Power': {
-        S1: singlePhaseLoadApparentPower,
+        S_1: singlePhaseLoadApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseLoadActivePower,
+        S_3: threePhaseLoadActivePower,
       },
     },
     load: {
@@ -356,10 +356,10 @@ export function starDelta({
         },
       },
       'Single Phase Apparent Power': {
-        S1: singlePhaseTotalApparentPower,
+        S_1: singlePhaseTotalApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseTotalApparentPower,
+        S_3: threePhaseTotalApparentPower,
       },
     },
   };
@@ -444,10 +444,10 @@ export function deltaStar({
       'Line Current': null,
       'Phase Current': null,
       'Single Phase Apparent Power': {
-        S1: singlePhaseApparentPower,
+        S_1: singlePhaseApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseApparentPower,
+        S_3: threePhaseApparentPower,
       },
     },
     load: {
@@ -485,10 +485,10 @@ export function deltaStar({
         },
       },
       'Single Phase Apparent Power': {
-        S1: singlePhaseLoadApparentPower,
+        S_1: singlePhaseLoadApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseLoadApparentPower,
+        S_3: threePhaseLoadApparentPower,
       },
     },
   };
@@ -613,10 +613,10 @@ export function deltaDelta({
       },
       'Phase Current': null,
       'Single Phase Apparent Power': {
-        S1: singlePhaseTotalApparentPower,
+        S_1: singlePhaseTotalApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseTotalApparentPower,
+        S_3: threePhaseTotalApparentPower,
       },
     },
     load: {
@@ -665,10 +665,10 @@ export function deltaDelta({
         },
       },
       'Single Phase Apparent Power': {
-        S1: singlePhaseLoadApparentPower,
+        S_1: singlePhaseLoadApparentPower,
       },
       'Three Phase Apparent Power': {
-        S3: threePhaseLoadApparentPower,
+        S_3: threePhaseLoadApparentPower,
       },
     },
   };
