@@ -72,6 +72,17 @@ function Outputs({
         });
         break;
 
+      case 'DeltaDelta':
+        newOutput = circuitSolver.deltaDelta({
+          lineVoltageMagnitude: eval(voltageValue.magnitude),
+          lineVoltagePhase: eval(voltageValue.phase),
+          transImpReal: transmissionImpedance.real,
+          transImpImag: transmissionImpedance.imaginary,
+          loadImpReal: loadImpedance.real,
+          loadImpImag: loadImpedance.imaginary,
+        });
+        break;
+
       default:
         break;
     }
