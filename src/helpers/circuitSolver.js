@@ -52,6 +52,11 @@ export function starStar({
     phase2: loadImpedancePhasor.phase,
   });
 
+  const loadLineVoltagePhasor = {
+    magnitude: Math.sqrt(3) * loadPhaseVoltagePhasor.magnitude,
+    phase: loadPhaseVoltagePhasor.phase + 30,
+  };
+
   //output power calc
   const singlePhaseLoadActivePower =
     Math.pow(lineCurrentPhasor.magnitude, 2) * loadReal;
@@ -157,7 +162,17 @@ export function starStar({
           phase: lineCurrentPhasor.phase + 120,
         },
       },
-      'Line Voltage': null,
+      'Line Voltage': {
+        V_AB: loadLineVoltagePhasor,
+        V_BC: {
+          magnitude: loadLineVoltagePhasor.magnitude,
+          phase: loadLineVoltagePhasor.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadLineVoltagePhasor.magnitude,
+          phase: loadLineVoltagePhasor.phase + 120,
+        },
+      },
       'Phase Voltage': {
         V_An: loadPhaseVoltagePhasor,
         V_Bn: {

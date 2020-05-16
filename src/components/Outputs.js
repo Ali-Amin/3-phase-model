@@ -134,14 +134,14 @@ function Outputs({
         visible={visible}
         onOk={() => setVisible(false)}
         closable={false}
-        width={800}
+        width={900}
       >
         <Row justify="center" align="middle" style={styles.tableRow}>
-          <Col span={9}></Col>
-          <Col span={7} style={styles.tableHeader}>
+          <Col span={7}></Col>
+          <Col span={8} style={styles.tableHeader}>
             SOURCE
           </Col>
-          <Col span={7} style={styles.tableHeader}>
+          <Col span={8} style={styles.tableHeader}>
             LOAD
           </Col>
         </Row>
@@ -154,12 +154,12 @@ function Outputs({
               style={styles.tableRow}
             >
               <Col
-                span={9}
+                span={7}
                 style={Object.assign({height: '95px'}, styles.tableHeader)}
               >
                 {key}
               </Col>
-              <Col span={7}>
+              <Col span={8}>
                 {output.source[key] !== null && output.source[key] !== undefined
                   ? Object.keys(output.source[key]).map((val) => {
                       const symbols = val.split('_');
@@ -180,7 +180,7 @@ function Outputs({
                   : '-'}
               </Col>
               <Col style={styles.vSeparator}></Col>
-              <Col span={7}>
+              <Col span={8}>
                 {output.load[key] !== null && output.load[key] !== undefined
                   ? Object.keys(output.load[key]).map((val) => {
                       const symbols = val.split('_');
