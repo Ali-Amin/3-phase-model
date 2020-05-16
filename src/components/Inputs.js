@@ -13,54 +13,53 @@ function Inputs({
   sourceShape,
   loadShape,
   setSourceShape,
-  setLoadShape
+  setLoadShape,
 }) {
-
   const [vType, setVType] = useState("line");
 
   function onChangeVoltage(value, key) {
-    if (parseFloat(value) == value || value==='' ) {
+    if (parseFloat(value) == value || value === "") {
       switch (key) {
         case "magnitude":
           setVoltageValue((prev) => {
-            return { ...prev, magnitude: value?value:'0' };
+            return { ...prev, magnitude: value ? value : "0" };
           });
           break;
         default:
           setVoltageValue((prev) => {
-            return { ...prev, phase: value?value:'0' };
+            return { ...prev, phase: value ? value : "0" };
           });
           break;
       }
     }
   }
   function onChangeLoad(value, key) {
-    if (parseFloat(value) == value || value==='') {
+    if (parseFloat(value) == value || value === "") {
       switch (key) {
         case "magnitude":
           setImpedanceLoadValue((prev) => {
-            return { ...prev, magnitude: value?value:'0' };
+            return { ...prev, magnitude: value ? value : "0" };
           });
           break;
         default:
           setImpedanceLoadValue((prev) => {
-            return { ...prev, phase: value?value:'0' };
+            return { ...prev, phase: value ? value : "0" };
           });
           break;
       }
     }
   }
   function onChangeImpedanceTR(value, key) {
-    if (parseFloat(value) == value || value==='') {
+    if (parseFloat(value) == value || value === "") {
       switch (key) {
         case "magnitude":
           setImpedanceTRValue((prev) => {
-            return { ...prev, magnitude: value?value:'0' };
+            return { ...prev, magnitude: value ? value : "0" };
           });
           break;
         default:
           setImpedanceTRValue((prev) => {
-            return { ...prev, phase: value?value:'0' };
+            return { ...prev, phase: value ? value : "0" };
           });
           break;
       }
