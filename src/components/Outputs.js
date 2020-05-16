@@ -35,13 +35,13 @@ function Outputs({
 
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
-      magnitude: eval(ImpedanceTRValue.magnitude),
-      phase: eval(ImpedanceTRValue.phase),
+      magnitude: parseFloat(ImpedanceTRValue.magnitude),
+      phase: parseFloat(ImpedanceTRValue.phase),
     });
 
     const loadImpedance = convertComplex.phasorToCartesian({
-      magnitude: eval(ImpedanceLoadValue.magnitude),
-      phase: eval(ImpedanceLoadValue.phase),
+      magnitude: parseFloat(ImpedanceLoadValue.magnitude),
+      phase: parseFloat(ImpedanceLoadValue.phase),
     });
 
     let newOutput;
@@ -49,8 +49,8 @@ function Outputs({
     switch (connection) {
       case 'StarStar':
         newOutput = circuitSolver.starStar({
-          sourceMag: eval(voltageValue.magnitude),
-          sourcePhase: eval(voltageValue.phase),
+          sourceMag: parseFloat(voltageValue.magnitude),
+          sourcePhase: parseFloat(voltageValue.phase),
           transmissionReal: transmissionImpedance.real,
           transmissionImag: transmissionImpedance.imaginary,
           loadReal: loadImpedance.real,
@@ -60,8 +60,8 @@ function Outputs({
 
       case 'DeltaStar':
         newOutput = circuitSolver.deltaStar({
-          voltageMagnitude: eval(voltageValue.magnitude),
-          voltagePhase: eval(voltageValue.phase),
+          voltageMagnitude: parseFloat(voltageValue.magnitude),
+          voltagePhase: parseFloat(voltageValue.phase),
           realZL: loadImpedance.real,
           imagZL: loadImpedance.imaginary,
           realZT: transmissionImpedance.real,
@@ -71,8 +71,8 @@ function Outputs({
 
       case 'StarDelta':
         newOutput = circuitSolver.starDelta({
-          phaseVoltageMagnitude: eval(voltageValue.magnitude),
-          phaseVoltageAngle: eval(voltageValue.phase),
+          phaseVoltageMagnitude: parseFloat(voltageValue.magnitude),
+          phaseVoltageAngle: parseFloat(voltageValue.phase),
           transReal: transmissionImpedance.real,
           transImag: transmissionImpedance.imaginary,
           loadReal: loadImpedance.real,
@@ -82,8 +82,8 @@ function Outputs({
 
       case 'DeltaDelta':
         newOutput = circuitSolver.deltaDelta({
-          lineVoltageMagnitude: eval(voltageValue.magnitude),
-          lineVoltagePhase: eval(voltageValue.phase),
+          lineVoltageMagnitude: parseFloat(voltageValue.magnitude),
+          lineVoltagePhase: parseFloat(voltageValue.phase),
           transImpReal: transmissionImpedance.real,
           transImpImag: transmissionImpedance.imaginary,
           loadImpReal: loadImpedance.real,
