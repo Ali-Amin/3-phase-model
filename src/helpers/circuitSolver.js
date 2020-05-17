@@ -1,7 +1,7 @@
 import * as convertComplex from './convertComplex';
 import * as complexOperations from './complexOperations';
 
-export function starStarSolver({
+export function starStar({
   sourceMag,
   sourcePhase,
   transmissionReal,
@@ -52,6 +52,11 @@ export function starStarSolver({
     phase2: loadImpedancePhasor.phase,
   });
 
+  const loadLineVoltagePhasor = {
+    magnitude: Math.sqrt(3) * loadPhaseVoltagePhasor.magnitude,
+    phase: loadPhaseVoltagePhasor.phase + 30,
+  };
+
   //output power calc
   const singlePhaseLoadActivePower =
     Math.pow(lineCurrentPhasor.magnitude, 2) * loadReal;
@@ -83,25 +88,113 @@ export function starStarSolver({
 
   return {
     source: {
-      lineCurrent: lineCurrentPhasor,
-      phaseCurrent: lineCurrentPhasor,
-      lineVoltage: sourceLineVoltagePhasor,
-      phaseVoltage: sourcePhaseVoltagePhasor,
-      singlePhaseApparentPower: singlePhaseTotalApparentPower,
-      threePhaseApparentPower: threePhaseTotalApparentPower,
+      'Line Current': {
+        I_aA: lineCurrentPhasor,
+        I_bB: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      'Phase Current': {
+        I_na: lineCurrentPhasor,
+        I_nb: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_nc: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      'Line Voltage': {
+        V_ab: sourceLineVoltagePhasor,
+        V_bc: {
+          magnitude: sourceLineVoltagePhasor.magnitude,
+          phase: sourceLineVoltagePhasor.phase - 120,
+        },
+        V_ca: {
+          magnitude: sourceLineVoltagePhasor.magnitude,
+          phase: sourceLineVoltagePhasor.phase + 120,
+        },
+      },
+      'Phase Voltage': {
+        V_an: sourcePhaseVoltagePhasor,
+        V_bn: {
+          magnitude: sourcePhaseVoltagePhasor.magnitude,
+          phase: sourcePhaseVoltagePhasor.phase - 120,
+        },
+        V_cn: {
+          magnitude: sourcePhaseVoltagePhasor.magnitude,
+          phase: sourcePhaseVoltagePhasor.phase + 120,
+        },
+      },
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseTotalApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseTotalApparentPower,
+      },
     },
     load: {
-      lineCurrent: lineCurrentPhasor,
-      phaseCurrent: lineCurrentPhasor,
-      lineVoltage: null,
-      phaseVoltage: loadPhaseVoltagePhasor,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadApparentPower,
+      'Line Current': {
+        I_aA: lineCurrentPhasor,
+        I_bB: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      'Phase Current': {
+        I_An: lineCurrentPhasor,
+        I_Bn: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase - 120,
+        },
+        I_Cn: {
+          magnitude: lineCurrentPhasor.magnitude,
+          phase: lineCurrentPhasor.phase + 120,
+        },
+      },
+      'Line Voltage': {
+        V_AB: loadLineVoltagePhasor,
+        V_BC: {
+          magnitude: loadLineVoltagePhasor.magnitude,
+          phase: loadLineVoltagePhasor.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadLineVoltagePhasor.magnitude,
+          phase: loadLineVoltagePhasor.phase + 120,
+        },
+      },
+      'Phase Voltage': {
+        V_An: loadPhaseVoltagePhasor,
+        V_Bn: {
+          magnitude: loadPhaseVoltagePhasor.magnitude,
+          phase: loadPhaseVoltagePhasor.phase - 120,
+        },
+        V_Cn: {
+          magnitude: loadPhaseVoltagePhasor.magnitude,
+          phase: loadPhaseVoltagePhasor.phase + 120,
+        },
+      },
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseLoadApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseLoadApparentPower,
+      },
     },
   };
 }
 
-export function solveStarDelta({
+export function starDelta({
   phaseVoltageMagnitude,
   phaseVoltageAngle,
   transReal,
@@ -178,23 +271,111 @@ export function solveStarDelta({
   };
   return {
     source: {
-      phaseVoltage: {
-        magnitude: phaseVoltageMagnitude,
-        phase: phaseVoltageAngle,
+      'Phase Voltage': {
+        V_an: {
+          magnitude: phaseVoltageMagnitude,
+          phase: phaseVoltageAngle,
+        },
+        V_bn: {
+          magnitude: phaseVoltageMagnitude,
+          phase: phaseVoltageAngle - 120,
+        },
+        V_cn: {
+          magnitude: phaseVoltageMagnitude,
+          phase: phaseVoltageAngle + 120,
+        },
       },
-      lineVoltage: sourceLineVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: phaseCurrent,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadActivePower,
+      'Line Voltage': {
+        V_ab: sourceLineVoltage,
+        V_bc: {
+          magnitude: sourceLineVoltage.magnitude,
+          phase: sourceLineVoltage.phase - 120,
+        },
+        V_ca: {
+          magnitude: sourceLineVoltage.magnitude,
+          phase: sourceLineVoltage.phase + 120,
+        },
+      },
+      'Line Current': {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Phase Current': {
+        I_na: lineCurrent,
+        I_nb: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_nc: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseLoadApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseLoadActivePower,
+      },
     },
     load: {
-      phaseVoltage: loadLineVoltage,
-      lineVoltage: loadLineVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: phaseCurrent,
-      singlePhaseApparentPower: singlePhaseTotalApparentPower,
-      threePhaseApparentPower: threePhaseTotalApparentPower,
+      'Phase Voltage': {
+        V_AB: loadLineVoltage,
+        V_BC: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase + 120,
+        },
+      },
+      'Line Voltage': {
+        V_AB: loadLineVoltage,
+        V_BC: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadLineVoltage.magnitude,
+          phase: loadLineVoltage.phase + 120,
+        },
+      },
+      'Line Current': {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Phase Current': {
+        I_AB: phaseCurrent,
+        I_BC: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase - 120,
+        },
+        I_CA: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase + 120,
+        },
+      },
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseTotalApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseTotalApparentPower,
+      },
     },
   };
 }
@@ -229,6 +410,16 @@ export function deltaStar({
     magnitude2: phasorZeq.magnitude,
     phase2: phasorZeq.phase,
   });
+  const phasorLoad = convertComplex.cartesianToPhasor({
+    real: realZL,
+    imaginary: imagZL,
+  });
+  const loadPhaseVoltage = complexOperations.multiplicationPhasor({
+    magnitude1: lineCurrent.magnitude,
+    phase1: lineCurrent.phase,
+    magnitude2: phasorLoad.magnitude,
+    phase2: phasorLoad.phase,
+  });
   const singlePhaseLoadActivePower =
     Math.pow(lineCurrent.magnitude, 2) * realZL;
   const singlePhaseLoadReactivePower =
@@ -254,17 +445,246 @@ export function deltaStar({
   };
   return {
     source: {
-      phaseVoltage: phaseVoltage,
-      lineCurrent: lineCurrent,
-      phaseCurrent: null,
-      singlePhaseApparentPower: singlePhaseApparentPower,
-      threePhaseApparentPower: threePhaseApparentPower,
+      'Phase Voltage': {
+        V_ab: phaseVoltage,
+        V_bc: {
+          magnitude: phaseVoltage.magnitude,
+          phase: phaseVoltage.phase - 120,
+        },
+        V_ca: {
+          magnitude: phaseVoltage.magnitude,
+          phase: phaseVoltage.phase + 120,
+        },
+      },
+      'Line Current': null,
+      'Phase Current': null,
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseApparentPower,
+      },
     },
     load: {
-      lineCurrent: lineCurrent,
-      phaseCurrent: null,
-      singlePhaseApparentPower: singlePhaseLoadApparentPower,
-      threePhaseApparentPower: threePhaseLoadApparentPower,
+      'Line Current': {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Phase Current': {
+        I_An: lineCurrent,
+        I_Bn: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_Cn: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Phase Voltage': {
+        V_An: loadPhaseVoltage,
+        V_Bn: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase - 120,
+        },
+        V_Cn: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseLoadApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseLoadApparentPower,
+      },
+    },
+  };
+}
+
+export function deltaDelta({
+  lineVoltageMagnitude,
+  lineVoltagePhase,
+  transImpReal,
+  transImpImag,
+  loadImpReal,
+  loadImpImag,
+}) {
+  const phaseVoltage = {
+    magnitude: lineVoltageMagnitude / Math.sqrt(3),
+    phase: lineVoltagePhase - 30,
+  };
+  const totalImp = complexOperations.addComplex({
+    real1: loadImpReal / 3,
+    imag1: loadImpImag / 3,
+    real2: transImpReal,
+    imag2: transImpImag,
+  });
+
+  const totalImpPhasor = convertComplex.cartesianToPhasor(totalImp);
+
+  const lineCurrent = complexOperations.divisionPhasor({
+    magnitude1: phaseVoltage.magnitude,
+    phase1: phaseVoltage.phase,
+    magnitude2: totalImpPhasor.magnitude,
+    phase2: totalImpPhasor.phase,
+  });
+
+  const phaseCurrent = {
+    magnitude: lineCurrent.magnitude / Math.sqrt(3),
+    phase: lineCurrent.phase + 30,
+  };
+
+  const loadImpPhasor = convertComplex.cartesianToPhasor({
+    real: loadImpReal,
+    imaginary: loadImpImag,
+  });
+  const loadPhaseVoltage = complexOperations.multiplicationPhasor({
+    magnitude1: phaseCurrent.magnitude,
+    phase1: phaseCurrent.phase,
+    magnitude2: loadImpPhasor.magnitude,
+    phase2: loadImpPhasor.phase,
+  });
+
+  const loadLineVoltage = {
+    magnitude: loadPhaseVoltage.magnitude * Math.sqrt(3),
+    phase: loadPhaseVoltage.phase + 30,
+  };
+
+  const singlePhaseLoadActivePower =
+    Math.pow(phaseCurrent.magnitude, 2) * loadImpReal;
+  const singlePhaseLoadReactivePower =
+    Math.pow(phaseCurrent.magnitude, 2) * loadImpImag;
+  const singlePhaseLoadApparentPower = convertComplex.cartesianToPhasor({
+    real: singlePhaseLoadActivePower,
+    imaginary: singlePhaseLoadReactivePower,
+  });
+  const threePhaseLoadApparentPower = {
+    magnitude: singlePhaseLoadApparentPower.magnitude * 3,
+    phase: singlePhaseLoadApparentPower.phase,
+  };
+
+  const singlePhaseTransActivePower =
+    Math.pow(lineCurrent.magnitude, 2) * transImpReal;
+  const singlePhaseTransReactivePower =
+    Math.pow(lineCurrent.magnitude, 2) * transImpImag;
+
+  const singlePhaseTotalApparentPower = convertComplex.cartesianToPhasor({
+    real: singlePhaseLoadActivePower + singlePhaseTransActivePower,
+    imaginary: singlePhaseLoadReactivePower + singlePhaseTransReactivePower,
+  });
+  const threePhaseTotalApparentPower = {
+    magnitude: singlePhaseTotalApparentPower.magnitude * 3,
+    phase: singlePhaseTotalApparentPower.phase,
+  };
+
+  return {
+    source: {
+      'Line Voltage': {
+        V_ab: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase,
+        },
+        v_bc: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase - 120,
+        },
+        V_ca: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase + 120,
+        },
+      },
+      'Phase Voltage': {
+        V_ab: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase,
+        },
+        v_bc: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase - 120,
+        },
+        V_ca: {
+          magnitude: lineVoltageMagnitude,
+          phase: lineVoltagePhase + 120,
+        },
+      },
+      'Line Current': {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Phase Current': null,
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseTotalApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseTotalApparentPower,
+      },
+    },
+    load: {
+      'Phase Voltage': {
+        V_AB: loadPhaseVoltage,
+        V_BC: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      'Line Voltage': {
+        V_AB: loadPhaseVoltage,
+        V_BC: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase - 120,
+        },
+        V_CA: {
+          magnitude: loadPhaseVoltage.magnitude,
+          phase: loadPhaseVoltage.phase + 120,
+        },
+      },
+      'Line Current': {
+        I_aA: lineCurrent,
+        I_bB: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase - 120,
+        },
+        I_cC: {
+          magnitude: lineCurrent.magnitude,
+          phase: lineCurrent.phase + 120,
+        },
+      },
+      'Phase Current': {
+        I_AB: phaseCurrent,
+        I_BC: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase - 120,
+        },
+        I_CA: {
+          magnitude: phaseCurrent.magnitude,
+          phase: phaseCurrent.phase + 120,
+        },
+      },
+      'Single Phase Apparent Power': {
+        S_1: singlePhaseLoadApparentPower,
+      },
+      'Three Phase Apparent Power': {
+        S_3: threePhaseLoadApparentPower,
+      },
     },
   };
 }
