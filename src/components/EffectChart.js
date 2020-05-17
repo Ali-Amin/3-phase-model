@@ -8,7 +8,6 @@ import formatOutputChart from "../helpers/formatOutputChart";
 
 const { Option } = Select;
 
-
 function EffectChart({
   voltageValue,
   ImpedanceTRValue,
@@ -43,7 +42,7 @@ function EffectChart({
           formatInputChart({ inputs, value: element, key: input })
         ),
       });
-      
+
       OutputMagnitude.push(result.magnitude);
       outputPhase.push(result.phase);
     });
@@ -73,7 +72,15 @@ function EffectChart({
   }, [range, input, effectOn]);
   return (
     <div>
-      <Button onClick={() => generateRange()}>Generate Range</Button>
+      <Button
+        disabled={
+          parseFloat(voltageValue.magnitude) === 0 ||
+          parseFloat(ImpedanceLoadValue.magnitude) === 0
+        }
+        onClick={() => generateRange()}
+      >
+        Generate Range
+      </Button>
       <Modal
         title="Generate Modal"
         visible={isGenerateModalOpen}
