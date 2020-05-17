@@ -32,7 +32,7 @@ function EffectChart({
       connection,
     };
     let labels = [...Array(101).keys()].slice(range[0], range[1]);
-    let OutputMagnitude = [];
+    let outputMagnitude = [];
     let outputPhase = [];
     labels.forEach((element) => {
       let result = formatOutputChart({
@@ -43,7 +43,7 @@ function EffectChart({
         ),
       });
 
-      OutputMagnitude.push(result.magnitude);
+      outputMagnitude.push(result.magnitude);
       outputPhase.push(result.phase);
     });
     setData({
@@ -56,7 +56,7 @@ function EffectChart({
           borderWidth: 1,
           hoverBackgroundColor: "rgba(255,99,132,0.4)",
           hoverBorderColor: "rgba(255,99,132,1)",
-          data: OutputMagnitude,
+          data: outputMagnitude,
         },
         {
           label: `${effectOn} Phase`,
@@ -65,7 +65,7 @@ function EffectChart({
           borderWidth: 1,
           hoverBackgroundColor: "rgba(74,81,132,0.4)",
           hoverBorderColor: "rgba(74,81,132,1)",
-          data: OutputMagnitude,
+          data: outputPhase,
         },
       ],
     });
