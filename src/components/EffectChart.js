@@ -69,7 +69,7 @@ function EffectChart({
         },
       ],
     });
-  }, [range, input, effectOn]);
+  }, [range, input, effectOn,effectOnKey]);
   return (
     <div>
       <Button
