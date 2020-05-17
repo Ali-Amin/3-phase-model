@@ -399,7 +399,6 @@ export function deltaStar({
     imaginary: Zeq.imaginary,
   });
 
-  console.log (Zeq);
   const phaseVoltage = {
     magnitude: voltageMagnitude / Math.sqrt (3),
     phase: voltagePhase - 30,

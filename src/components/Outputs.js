@@ -1,26 +1,27 @@
-import React, {useState, useEffect} from 'react';
-import {Row, Button, Modal, Col} from 'antd';
-import * as circuitSolver from '../helpers/circuitSolver';
-import * as convertComplex from '../helpers/convertComplex';
-import systems from '../assets';
+import React, { useState } from "react";
+import { Row, Button, Modal, Col } from "antd";
+import * as circuitSolver from "../helpers/circuitSolver";
+import * as convertComplex from "../helpers/convertComplex";
+
+import systems from "../assets";
 
 const styles = {
   tableHeader: {
-    backgroundColor: 'grey',
-    color: 'white',
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "grey",
+    color: "white",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   tableRow: {
-    textAlign: 'center',
-    fontSize: '18px',
+    textAlign: "center",
+    fontSize: "18px",
   },
   vSeparator: {
-    backgroundColor: 'grey',
-    height: '95px',
-    width: '2px',
+    backgroundColor: "grey",
+    height: "95px",
+    width: "2px",
   },
 };
 
@@ -32,16 +33,7 @@ function Outputs({
   connection,
 }) {
   const [visible, setVisible] = useState(false);
-  const [output, setOutput] = useState({source: {}, load: {}});
-  const [buttonDisabled, setButtonDisabled] = useState(true);
-
-  useEffect(() => {
-    if (
-      parseFloat(voltageValue.magnitude) !== 0 &&
-      parseFloat(ImpedanceLoadValue.magnitude) !== 0
-    )
-      setButtonDisabled(false);
-  }, [voltageValue, ImpedanceLoadValue]);
+  const [output, setOutput] = useState({ source: {}, load: {} });
 
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
@@ -53,11 +45,10 @@ function Outputs({
       magnitude: parseFloat(ImpedanceLoadValue.magnitude),
       phase: parseFloat(ImpedanceLoadValue.phase),
     });
-
     let newOutput;
 
     switch (connection) {
-      case 'StarStar':
+      case "StarStar":
         newOutput = circuitSolver.starStar({
           sourceMag: parseFloat(voltageValue.magnitude),
           sourcePhase: parseFloat(voltageValue.phase),
@@ -68,7 +59,7 @@ function Outputs({
         });
         break;
 
-      case 'DeltaStar':
+      case "DeltaStar":
         newOutput = circuitSolver.deltaStar({
           voltageMagnitude: parseFloat(voltageValue.magnitude),
           voltagePhase: parseFloat(voltageValue.phase),
@@ -79,7 +70,7 @@ function Outputs({
         });
         break;
 
-      case 'StarDelta':
+      case "StarDelta":
         newOutput = circuitSolver.starDelta({
           phaseVoltageMagnitude: parseFloat(voltageValue.magnitude),
           phaseVoltageAngle: parseFloat(voltageValue.phase),
@@ -90,7 +81,7 @@ function Outputs({
         });
         break;
 
-      case 'DeltaDelta':
+      case "DeltaDelta":
         newOutput = circuitSolver.deltaDelta({
           lineVoltageMagnitude: parseFloat(voltageValue.magnitude),
           lineVoltagePhase: parseFloat(voltageValue.phase),
@@ -105,7 +96,6 @@ function Outputs({
         break;
     }
 
-    console.log(output);
     setOutput(newOutput);
     setVisible(true);
     return;
@@ -114,17 +104,22 @@ function Outputs({
   return (
     <div>
       <Row>
-        {console.log(system)}
         <img alt="" src={systems[system]} width={540} height={350} />
       </Row>
       <Row
         align="middle"
         justify="center"
         style={{
-          marginTop: '20px',
+          marginTop: "20px",
         }}
       >
-        <Button disabled={buttonDisabled} onClick={() => handleComputeClick()}>
+        <Button
+          disabled={
+            parseFloat(voltageValue.magnitude) === 0 ||
+            parseFloat(ImpedanceLoadValue.magnitude) === 0
+          }
+          onClick={() => handleComputeClick()}
+        >
           COMPUTE
         </Button>
       </Row>
@@ -155,14 +150,14 @@ function Outputs({
             >
               <Col
                 span={7}
-                style={Object.assign({height: '95px'}, styles.tableHeader)}
+                style={Object.assign({ height: "95px" }, styles.tableHeader)}
               >
                 {key}
               </Col>
               <Col span={8}>
                 {output.source[key] !== null && output.source[key] !== undefined
                   ? Object.keys(output.source[key]).map((val) => {
-                      const symbols = val.split('_');
+                      const symbols = val.split("_");
                       return (
                         <div>
                           <span>{symbols[0]}</span>
@@ -177,13 +172,13 @@ function Outputs({
                         </div>
                       );
                     })
-                  : '-'}
+                  : "-"}
               </Col>
               <Col style={styles.vSeparator}></Col>
               <Col span={8}>
                 {output.load[key] !== null && output.load[key] !== undefined
                   ? Object.keys(output.load[key]).map((val) => {
-                      const symbols = val.split('_');
+                      const symbols = val.split("_");
                       return (
                         <div>
                           <span>{symbols[0]}</span>
@@ -198,7 +193,7 @@ function Outputs({
                         </div>
                       );
                     })
-                  : '-'}
+                  : "-"}
               </Col>
             </Row>
           );

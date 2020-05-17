@@ -1,21 +1,22 @@
-import React, {useState} from 'react';
-import {Row, Divider} from 'antd';
+import React, { useState } from "react";
+import { Row, Divider } from "antd";
 
-import Inputs from './Inputs';
-import Outputs from './Outputs';
+import Inputs from "./Inputs";
+import Outputs from "./Outputs";
+import EffectChart from "./EffectChart";
 
 function ThreePhaseSystem() {
   const [voltageValue, setVoltageValue] = useState({
-    magnitude: '0',
-    phase: '0',
+    magnitude: "0",
+    phase: "0",
   });
   const [ImpedanceLoadValue, setImpedanceLoadValue] = useState({
-    magnitude: '0',
-    phase: '0',
+    magnitude: "0",
+    phase: "0",
   });
   const [ImpedanceTRValue, setImpedanceTRValue] = useState({
-    magnitude: '0',
-    phase: '0',
+    magnitude: "0",
+    phase: "0",
   });
   const [sourceShape, setSourceShape] = useState('Star');
   const [loadShape, setLoadShape] = useState('Star');
@@ -48,6 +49,15 @@ function ThreePhaseSystem() {
           connection={sourceShape + loadShape}
           system={`${sourceShape}_${loadShape}`}
         />
+        <Row>
+          <EffectChart
+            voltageValue={voltageValue}
+            ImpedanceTRValue={ImpedanceTRValue}
+            ImpedanceLoadValue={ImpedanceLoadValue}
+            connection={sourceShape + loadShape}
+            system={`${sourceShape}_${loadShape}`}
+          />
+        </Row>
       </Row>
     </div>
   );
