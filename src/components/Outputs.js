@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import { Row, Button, Modal, Col } from "antd";
-import * as circuitSolver from "../helpers/circuitSolver";
-import * as convertComplex from "../helpers/convertComplex";
+import React, {useState} from 'react';
+import {Row, Button, Modal, Col} from 'antd';
+import * as circuitSolver from '../helpers/circuitSolver';
+import * as convertComplex from '../helpers/convertComplex';
 
-import systems from "../assets";
+import systems from '../assets';
 
 const styles = {
   tableHeader: {
-    backgroundColor: "grey",
-    color: "white",
-    textAlign: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'grey',
+    color: 'white',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tableRow: {
-    textAlign: "center",
-    fontSize: "18px",
+    textAlign: 'center',
+    fontSize: '18px',
   },
   vSeparator: {
-    backgroundColor: "grey",
-    height: "95px",
-    width: "2px",
+    backgroundColor: 'grey',
+    height: '95px',
+    width: '2px',
   },
 };
 
@@ -33,7 +33,7 @@ function Outputs({
   connection,
 }) {
   const [visible, setVisible] = useState(false);
-  const [output, setOutput] = useState({ source: {}, load: {} });
+  const [output, setOutput] = useState({source: {}, load: {}});
 
   const handleComputeClick = () => {
     const transmissionImpedance = convertComplex.phasorToCartesian({
@@ -48,7 +48,7 @@ function Outputs({
     let newOutput;
 
     switch (connection) {
-      case "StarStar":
+      case 'StarStar':
         newOutput = circuitSolver.starStar({
           sourceMag: parseFloat(voltageValue.magnitude),
           sourcePhase: parseFloat(voltageValue.phase),
@@ -59,7 +59,7 @@ function Outputs({
         });
         break;
 
-      case "DeltaStar":
+      case 'DeltaStar':
         newOutput = circuitSolver.deltaStar({
           voltageMagnitude: parseFloat(voltageValue.magnitude),
           voltagePhase: parseFloat(voltageValue.phase),
@@ -70,7 +70,7 @@ function Outputs({
         });
         break;
 
-      case "StarDelta":
+      case 'StarDelta':
         newOutput = circuitSolver.starDelta({
           phaseVoltageMagnitude: parseFloat(voltageValue.magnitude),
           phaseVoltageAngle: parseFloat(voltageValue.phase),
@@ -81,7 +81,7 @@ function Outputs({
         });
         break;
 
-      case "DeltaDelta":
+      case 'DeltaDelta':
         newOutput = circuitSolver.deltaDelta({
           lineVoltageMagnitude: parseFloat(voltageValue.magnitude),
           lineVoltagePhase: parseFloat(voltageValue.phase),
@@ -110,7 +110,7 @@ function Outputs({
         align="middle"
         justify="center"
         style={{
-          marginTop: "20px",
+          marginTop: '20px',
         }}
       >
         <Button
@@ -150,14 +150,14 @@ function Outputs({
             >
               <Col
                 span={7}
-                style={Object.assign({ height: "95px" }, styles.tableHeader)}
+                style={Object.assign({height: '95px'}, styles.tableHeader)}
               >
                 {key}
               </Col>
               <Col span={8}>
                 {output.source[key] !== null && output.source[key] !== undefined
                   ? Object.keys(output.source[key]).map((val) => {
-                      const symbols = val.split("_");
+                      const symbols = val.split('_');
                       return (
                         <div>
                           <span>{symbols[0]}</span>
@@ -172,13 +172,13 @@ function Outputs({
                         </div>
                       );
                     })
-                  : "-"}
+                  : '-'}
               </Col>
               <Col style={styles.vSeparator}></Col>
               <Col span={8}>
                 {output.load[key] !== null && output.load[key] !== undefined
                   ? Object.keys(output.load[key]).map((val) => {
-                      const symbols = val.split("_");
+                      const symbols = val.split('_');
                       return (
                         <div>
                           <span>{symbols[0]}</span>
@@ -193,11 +193,34 @@ function Outputs({
                         </div>
                       );
                     })
-                  : "-"}
+                  : '-'}
               </Col>
             </Row>
           );
         })}
+        <Row justify="center" align="middle" style={styles.tableRow}>
+          <Col
+            span={7}
+            style={Object.assign({height: '95px'}, styles.tableHeader)}
+          >
+            Efficiency
+          </Col>
+          <Col span={16}>
+            {(
+              (output.load['Single Phase Apparent Power']?.S_1.magnitude /
+                output.source['Single Phase Apparent Power']?.S_1.magnitude) *
+              100
+            )
+              .toFixed(2)
+              .toString() + '%'}
+          </Col>
+          <Col
+            style={{
+              height: '95px',
+              width: '2px',
+            }}
+          ></Col>
+        </Row>
       </Modal>
     </div>
   );
