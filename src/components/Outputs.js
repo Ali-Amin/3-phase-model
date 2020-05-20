@@ -198,29 +198,6 @@ function Outputs({
             </Row>
           );
         })}
-        <Row justify="center" align="middle" style={styles.tableRow}>
-          <Col
-            span={7}
-            style={Object.assign({height: '95px'}, styles.tableHeader)}
-          >
-            Efficiency
-          </Col>
-          <Col span={16}>
-            {(
-              (output.load['Single Phase Apparent Power']?.S_1.magnitude /
-                output.source['Single Phase Apparent Power']?.S_1.magnitude) *
-              100
-            )
-              .toFixed(2)
-              .toString() + '%'}
-          </Col>
-          <Col
-            style={{
-              height: '95px',
-              width: '2px',
-            }}
-          ></Col>
-        </Row>
       </Modal>
     </div>
   );
